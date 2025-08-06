@@ -24,7 +24,7 @@ app.use(cookieParser());
 
 
 
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+const allowedOrigins = ['https://fdeploy-brown.vercel.app','http://localhost:5173', 'http://localhost:5174'];
 
 app.use(cors({
   origin: function (origin, callback) {
