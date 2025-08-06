@@ -19,30 +19,29 @@ app.get('/', (req, res) => {
 app.use(express.json());
 app.use(cookieParser());
 
-// ✅ Correct frontend domains (local + Vercel)
+// ✅ Allow these origins
 const allowedOrigins = [
-  'https://fdeploy-brown.vercel.app',  // ✅ Your deployed frontend
-  'http://localhost:5173',             // ✅ Local dev
-  'http://localhost:5174'              // ✅ Optional second local port
+  'https://fdeploy-brown.vercel.app', // ✅ your frontend
+  'http://localhost:5173',
+  'http://localhost:5174'
 ];
 
-// ✅ CORS Setup
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error('Not allowed by CORS: ' + origin));
     }
   },
-  credentials: true
+  credentials: true,
 }));
 
 // ✅ Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/items', itemRoutes);
 
-// ✅ Connect to MongoDB
+// ✅ Connect to MongoDB and Start Server
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
