@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 // ✅ Middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors())
 
 // ✅ Allow these origins
 const allowedOrigins = [
