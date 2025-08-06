@@ -7,9 +7,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import itemRoutes from './routes/itemRoutes.js';
 
-dotenv.config(); // ✅ Load environment variables
-
-console.log("🔍 MONGO_URI =", process.env.MONGO_URI); // ✅ Corrected
+dotenv.config();
 
 const app = express();
 
@@ -17,15 +15,18 @@ app.get('/', (req, res) => {
   res.send('Backend is running...');
 });
 
-
 // ✅ Middlewares
 app.use(express.json());
 app.use(cookieParser());
 
+// ✅ Correct frontend domains (local + Vercel)
+const allowedOrigins = [
+  'https://fdeploy-brown.vercel.app',  // ✅ Your deployed frontend
+  'http://localhost:5173',             // ✅ Local dev
+  'http://localhost:5174'              // ✅ Optional second local port
+];
 
-
-const allowedOrigins = ['https://fdeploy-brown.vercel.app','http://localhost:5173', 'http://localhost:5174'];
-
+// ✅ CORS Setup
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
